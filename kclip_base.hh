@@ -28,8 +28,13 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
 #include <cstdlib>
 #include <cstring>
+
+#ifdef K_WINDOWS
+# include <windows.h>
+#endif
 
 #ifdef K_POSIX
 # include <pthread.h>
@@ -39,6 +44,7 @@
 // Core types
 //
 
+using u8  = std::uint8_t;
 using u32 = std::uint32_t;
 
 using usize = std::size_t;
@@ -56,7 +62,7 @@ using usize = std::size_t;
 #define K_strdup strdup
 
 //
-// Hacky defer macro thingy via C++ RAII nightmare world shenanigans
+// Hacky defer macro thingy via C++ RAII
 //
 // ref: https://veg.by/en/blog/2024/08/03/defer-macro/ 
 //
@@ -83,12 +89,26 @@ using ThreadProc = void(*)(void* opaque);
 
 struct Thread
 {
+#ifdef K_WINDOWS
+  HANDLE      handle;
+#endif
 #ifdef K_POSIX
   pthread_t   tid;
 #endif
   ThreadProc  proc;
   void*       opaque;
 };
+
+#ifdef K_WINDOWS
+
+static inline DWORD winthread_proc_caller(LPVOID p)
+{
+  Thread* t = (Thread*)p;
+  t->proc(t->opaque);
+  return 0;
+}
+
+#endif
 
 #ifdef K_POSIX
 
@@ -106,6 +126,10 @@ static inline void create_thread(Thread* t, ThreadProc proc, void* opaque)
   DBG_ASSERT(t && proc);
   t->proc = proc;
   t->opaque = opaque;
+#ifdef K_WINDOWS
+  t->handle = CreateThread(NULL, 0, winthread_proc_caller, t, 0, NULL);
+  DBG_ASSERT(t->handle);
+#endif
 #ifdef K_POSIX
   int ret = pthread_create(&t->tid, NULL, pthread_proc_caller, t);
   DBG_ASSERT(ret == 0);

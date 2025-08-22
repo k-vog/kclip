@@ -8,11 +8,8 @@ static void file_select_task(void*)
 {
 }
 
-void kclip_main(usize argc, const char* argv[])
+void kclip_init1_before_window()
 {
-  G.argc = argc;
-  G.argv = argv;
-  
   const char* selected_file = (G.argc >= 2) ? G.argv[1] : NULL;
 
   // If no file was supplied, prompt the user the a file. Run the file selection code in
@@ -20,12 +17,25 @@ void kclip_main(usize argc, const char* argv[])
   if (!selected_file) {
     create_thread(&G.file_select_thread, file_select_task, NULL);
   }
-
-  create_window_and_init_graphics();
-
-  if (!selected_file) {
-    // @@ await response
-  }
-
-  show_window();
 }
+
+void kclip_init2_setup_dear_imgui()
+{
+  IMGUI_CHECKVERSION();
+  ImGui::CreateContext();
+}
+
+void kclip_init3_before_window_shown()
+{
+  // @@ await file select response
+}
+
+void kclip_frame()
+{
+  ImGui::NewFrame();
+
+  ImGui::ShowDemoWindow();
+
+  ImGui::Render();
+}
+

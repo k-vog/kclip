@@ -9,6 +9,17 @@ add_executable(kclip
   "${CMAKE_CURRENT_LIST_DIR}/kclip.cc"
 )
 
+if(WIN32)
+  target_sources(kclip PRIVATE
+    "${CMAKE_CURRENT_LIST_DIR}/kclip_os_windows.cc"
+  )
+  target_link_libraries(kclip PRIVATE
+    d3d11
+    d3dcompiler
+    dwmapi
+  )
+endif()
+
 if(APPLE)
   target_sources(kclip PRIVATE
     "${CMAKE_CURRENT_LIST_DIR}/kclip_os_macos.mm"
@@ -37,5 +48,28 @@ if(NOT MSVC)
   # Not MSVC options
   target_compile_options(kclip PRIVATE
     -Wall -Wextra -Wpedantic
+  )
+endif()
+
+#
+# Dep: Dear Imgui
+#
+
+target_include_directories(kclip PRIVATE
+  "${CMAKE_CURRENT_LIST_DIR}/thirdparty/imgui"
+)
+
+target_sources(kclip PRIVATE
+  "${CMAKE_CURRENT_LIST_DIR}/thirdparty/imgui/imgui.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/thirdparty/imgui/imgui_demo.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/thirdparty/imgui/imgui_draw.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/thirdparty/imgui/imgui_tables.cpp"
+  "${CMAKE_CURRENT_LIST_DIR}/thirdparty/imgui/imgui_widgets.cpp"
+)
+
+if(WIN32)
+  target_sources(kclip PRIVATE
+    "${CMAKE_CURRENT_LIST_DIR}/thirdparty/imgui/backends/imgui_impl_dx11.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/thirdparty/imgui/backends/imgui_impl_win32.cpp"
   )
 endif()
