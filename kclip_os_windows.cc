@@ -162,6 +162,8 @@ int WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
     kclip_frame();
 
     WIN.devicecontext->OMSetRenderTargets(1, &WIN.rtv, NULL);
+    f32 clear_color[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    WIN.devicecontext->ClearRenderTargetView(WIN.rtv, clear_color);
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
     hr = WIN.swapchain->Present(1, 0);
   }

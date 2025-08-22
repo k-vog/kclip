@@ -23,6 +23,12 @@ void kclip_init2_setup_dear_imgui()
 {
   IMGUI_CHECKVERSION();
   ImGui::CreateContext();
+  ImGuiIO& io = ImGui::GetIO();
+  io.IniFilename = NULL;
+
+#ifdef K_WINDOWS
+  io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\verdana.ttf", 18.0f);
+#endif
 }
 
 void kclip_init3_before_window_shown()
