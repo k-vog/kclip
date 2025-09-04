@@ -3,6 +3,8 @@
 
 #include "kbase.hh"
 
+#include "imgui.h"
+
 constexpr const char* KCLIP_TITLE = "KClip";
 constexpr u16         KCLIP_W     = 1024;
 constexpr u16         KCLIP_H     = 768;

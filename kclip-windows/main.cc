@@ -2,6 +2,9 @@
 #include <Windows.h>
 #include <d3d11.h>
 
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
+
 #include "kclip.hh"
 
 static struct
@@ -35,8 +38,11 @@ static const char* TempWin32ErrorStr(DWORD win32_code)
   return error;
 }
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 static LRESULT WndProc(HWND hwnd, UINT umsg, WPARAM wparam, LPARAM lparam)
 {
+  ImGui_ImplWin32_WndProcHandler(hwnd, umsg, wparam, lparam);
   return DefWindowProcA(hwnd, umsg, wparam, lparam);
 }
 
@@ -103,7 +109,41 @@ int APIENTRY WinMain(_In_ HINSTANCE hinstance, _In_opt_ HINSTANCE, _In_ LPSTR, _
 
   CreateRenderTarget();
 
+  ImGui::CreateContext();
+  ImGui_ImplWin32_Init(A.wnd);
+  ImGui_ImplDX11_Init(A.device, A.device_context);
+
   ShowWindow(A.wnd, SW_SHOW);
+
+  bool running = true;
+  while (running) {
+    MSG msg;
+    while (PeekMessageA(&msg, 0, 0, 0, PM_REMOVE)) {
+      TranslateMessage(&msg);
+      DispatchMessageA(&msg);
+      if (msg.message == WM_QUIT) {
+        running = false;
+      }
+    }
+
+    ImGui_ImplDX11_NewFrame();
+    ImGui_ImplWin32_NewFrame();
+    ImGui::NewFrame();
+
+    ImGui::ShowDemoWindow();
+
+    ImGui::Render();
+
+    const f32 clear_color[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+    A.device_context->OMSetRenderTargets(1, &A.rtgt, 0);
+    A.device_context->ClearRenderTargetView(A.rtgt, clear_color);
+    ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+    hr = A.swapchain->Present(1, 0);
+    if (FAILED(hr)) {
+      ErrorF("Present failed: %s", TempWin32ErrorStr(hr));
+    }
+  }
 
   return 0;
 }
