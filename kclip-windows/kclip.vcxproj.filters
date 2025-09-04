@@ -13,7 +13,10 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Dear ImGui">
+    <Filter Include="Thirdparty">
+      <UniqueIdentifier>{607795f4-89fc-41d5-bdfc-3413bf127b31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Thirdparty\Dear ImGui">
       <UniqueIdentifier>{a5ed3be8-984c-4fed-a674-c7a33262e259}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -25,33 +28,33 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\imgui\imgui.cpp">
-      <Filter>Source Files\Dear ImGui</Filter>
+      <Filter>Thirdparty\Dear ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\imgui\imgui_demo.cpp">
-      <Filter>Source Files\Dear ImGui</Filter>
+      <Filter>Thirdparty\Dear ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\imgui\imgui_draw.cpp">
-      <Filter>Source Files\Dear ImGui</Filter>
+      <Filter>Thirdparty\Dear ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\imgui\imgui_tables.cpp">
-      <Filter>Source Files\Dear ImGui</Filter>
+      <Filter>Thirdparty\Dear ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\imgui\imgui_widgets.cpp">
-      <Filter>Source Files\Dear ImGui</Filter>
+      <Filter>Thirdparty\Dear ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\imgui\backends\imgui_impl_dx11.cpp">
-      <Filter>Source Files\Dear ImGui</Filter>
+      <Filter>Thirdparty\Dear ImGui</Filter>
     </ClCompile>
     <ClCompile Include="..\thirdparty\imgui\backends\imgui_impl_win32.cpp">
-      <Filter>Source Files\Dear ImGui</Filter>
+      <Filter>Thirdparty\Dear ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\kclip.hh">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\kbase.hh">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\kclip.hh">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
