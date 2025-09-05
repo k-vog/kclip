@@ -78,6 +78,8 @@ int APIENTRY WinMain(_In_ HINSTANCE hinstance, _In_opt_ HINSTANCE, _In_ LPSTR, _
     ErrorF("Failed to initialize COM: %s", TempWin32ErrorStr(GetLastError()));
   }
 
+  KClip_InitBeforeWindow();
+
   WNDCLASSA wc = { };
   wc.lpfnWndProc   = WndProc;
   wc.lpszClassName = KCLIP_TITLE;
@@ -132,6 +134,10 @@ int APIENTRY WinMain(_In_ HINSTANCE hinstance, _In_opt_ HINSTANCE, _In_ LPSTR, _
   ImGui_ImplWin32_Init(A.wnd);
   ImGui_ImplDX11_Init(A.device, A.device_context);
 
+  // @@ need more robust font loading
+  // @@ this should be user-selectable anyway
+  // ImGui::GetIO().Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\tahoma.ttf", 14.0f);
+
   ShowWindow(A.wnd, SW_SHOW);
 
   bool running = true;
@@ -149,13 +155,12 @@ int APIENTRY WinMain(_In_ HINSTANCE hinstance, _In_opt_ HINSTANCE, _In_ LPSTR, _
     ImGui_ImplWin32_NewFrame();
     ImGui::NewFrame();
 
-    ImGui::ShowDemoWindow();
+    KClip_DrawUI();
 
     ImGui::Render();
 
-    const f32 clear_color[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
     A.device_context->OMSetRenderTargets(1, &A.rtgt, 0);
-    A.device_context->ClearRenderTargetView(A.rtgt, clear_color);
+    A.device_context->ClearRenderTargetView(A.rtgt, &G.theme.colors[UI_COLOR_BG].Value.x);
     ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
     hr = A.swapchain->Present(1, 0);

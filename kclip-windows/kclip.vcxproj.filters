@@ -48,6 +48,12 @@
     <ClCompile Include="..\thirdparty\imgui\backends\imgui_impl_win32.cpp">
       <Filter>Thirdparty\Dear ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="..\kclip.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\kwidgets.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\kbase.hh">
