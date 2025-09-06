@@ -54,12 +54,18 @@
     <ClCompile Include="..\kwidgets.cc">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="imgui_directwrite.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\kbase.hh">
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\kclip.hh">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="imgui_directwrite.hh">
       <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>

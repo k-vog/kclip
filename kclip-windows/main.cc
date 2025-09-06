@@ -5,6 +5,8 @@
 #include "imgui_impl_dx11.h"
 #include "imgui_impl_win32.h"
 
+#include "imgui_directwrite.hh"
+
 #include "kclip.hh"
 
 static struct
@@ -134,9 +136,11 @@ int APIENTRY WinMain(_In_ HINSTANCE hinstance, _In_opt_ HINSTANCE, _In_ LPSTR, _
   ImGui_ImplWin32_Init(A.wnd);
   ImGui_ImplDX11_Init(A.device, A.device_context);
 
+  ImGui::GetIO().Fonts->SetFontLoader(ImGuiDirectWrite_GetFontLoader());
+
   // @@ need more robust font loading
   // @@ this should be user-selectable anyway
-  // ImGui::GetIO().Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\tahoma.ttf", 14.0f);
+  ImGui::GetIO().Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\tahoma.ttf", 14.0f);
 
   ShowWindow(A.wnd, SW_SHOW);
 
